@@ -1,13 +1,12 @@
-from logging import debug, info
 from time import sleep
 from urllib.parse import parse_qs
 import requests
-import logger
+from logger import set_logging, debug, info
 
 client_id = "5fbc80938f0fa9cebefa"
 client_secret = "bbec7dfe54df734011ece4d35f0ff4c510afad4b"
 
-logger.set_logging()
+set_logging()
 
 def get_access_token():
     auth_url = "https://github.com/login/device/code?scope=repo"
@@ -18,7 +17,7 @@ def get_access_token():
         k: v[0] for k,v in parse_qs(auth_url_res.text).items()
     }
 
-    debug(f"auth_url_data: {auth_url_data}")
+    debug("auth_url_data", auth_url_data)
     info(f"Please enter {auth_url_data['user_code']} at {auth_url_data['verification_uri']}. This code will expire in {(int(auth_url_data['expires_in']) + 1) / 60} mins")
 
     interval = int(auth_url_data["interval"])
@@ -34,7 +33,7 @@ def get_access_token():
     access_token_data = {
         k: v[0] for k,v in parse_qs(access_token_res.text).items()
     }
-    debug(f"access_token_data: {access_token_data}")
+    debug("access_token_data", access_token_data)
     # doc: https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app#about-user-access-tokens
     while "error" in access_token_data:
         sleep(interval)
@@ -42,6 +41,6 @@ def get_access_token():
         access_token_data = {
             k: v[0] for k,v in parse_qs(access_token_res.text).items()
         }
-        debug(f"access_token_data: {access_token_data}")
+        debug("access_token_data", access_token_data)
     access_token = access_token_data["access_token"]
     return access_token

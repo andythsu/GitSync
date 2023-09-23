@@ -9,7 +9,8 @@ import logger
 logger.set_logging()
 
 def main():
-    # access_token = get_access_token()
+    access_token = get_access_token()
+    return
     access_token = "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"
     url = "https://api.github.com/user"
     user_info = requests.get(url, headers={
