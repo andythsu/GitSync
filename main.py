@@ -1,18 +1,34 @@
-import requests
+from dataclasses import dataclass
+from logging import debug
+from time import sleep
 from urllib.parse import parse_qs
+from auth import get_access_token
+import requests
+import logger
 
-client_secret = "bbec7dfe54df734011ece4d35f0ff4c510afad4b"
-client_id = "5fbc80938f0fa9cebefa"
+logger.set_logging()
 
 def main():
-    auth_url = "https://github.com/login/device/code"
-    auth_url_res = requests.post(auth_url, data={
-        "client_id": client_id
+    # access_token = get_access_token()
+    access_token = "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"
+    url = "https://api.github.com/user"
+    user_info = requests.get(url, headers={
+        "Authorization": f"Bearer {access_token}"
     })
-    auth_url_res_data = {
-        k: v[0] for k,v in parse_qs(auth_url_res.text).items()
-    }
-    print(auth_url_res_data)
+    user_info_json = user_info.json()
+    owner = user_info_json["login"]
+    debug(f"owner: {owner}")
+    # get repo name
+    repo_name = input("Enter the repo name you want to sync to: ")
+    url = f"https://api.github.com/repos/{owner}/{repo_name}"
+    repo_exists = requests.get(url, headers={
+        "Authorization": f"Bearer {access_token}"
+    })
+
+    if repo_exists.status_code == 200:
+        ...
+    elif repo_exists.status_code == 404:
+        ...
 
 if __name__ == "__main__":
     main()
