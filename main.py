@@ -1,9 +1,5 @@
-import json
 from logging import debug
-import os
-from time import sleep
-
-import requests
+from auth import get_access_token
 
 from gh import GHApi
 from lc import LCApi
@@ -23,21 +19,15 @@ def create_new_repo(gh_api: GHApi, repo_name: str):
         info(f"successfully created repo {repo_name}")
         return True
 
-
 def main():
-    access_token = "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"
-
+    access_token = get_access_token()
     gh_api = GHApi(access_token=access_token)
-
     user_info_json = gh_api.get_user_info().json()
     owner = user_info_json["login"]
     debug("owner", owner)
     gh_api.owner = owner
-    # get repo name
     repo_name = input("Enter the repo name you want to sync to: ")
-
     get_repo = gh_api.get_repo(owner, repo_name)
-
     if get_repo.status_code == 404:
         ans = input(f"The repo {repo_name} doesn't exist. Create a new one? [y/n] ")
         if ans.capitalize() == 'Y':
@@ -65,7 +55,6 @@ def main():
         exit(1)
     info("retrieved all problems")
     questions = problems.json()["data"]["problemsetQuestionList"]["questions"]
-    debug("questions", questions)
     for i in range(0, len(questions)):
         q = questions[i]
         info(f"syncing question {i}")

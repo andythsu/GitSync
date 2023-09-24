@@ -34,6 +34,7 @@ def get_access_token():
         k: v[0] for k,v in parse_qs(access_token_res.text).items()
     }
     debug("access_token_data", access_token_data)
+
     # doc: https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app#about-user-access-tokens
     while "error" in access_token_data:
         sleep(interval)

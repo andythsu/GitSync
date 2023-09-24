@@ -82,3 +82,27 @@ query submissionDetails($submissionId: Int!) {
   }
 }
 """
+def get_user_status_query():
+    return """
+query globalData {
+    userStatus {
+      userId
+    isSignedIn
+    isMockUser
+    isPremium
+    isVerified
+    username
+    avatar
+    isAdmin
+    isSuperuser
+    permissions
+    isTranslator
+    activeSessionId
+    checkedInToday
+    notificationStatus {
+        lastModified
+      numUnread
+    }
+  }
+}
+"""
