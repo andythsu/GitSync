@@ -4,9 +4,19 @@
 
 GitSync is a python script that uploads the most recent solution of all your Leetcode problems to Github. It is inspired [GitCode](https://github.com/andythsu/GitCode) because it is not realistic to sync all 2k questions from Leetcode to Github in a web extension.
 
-## To install
+## To run
 
-`docker run -it -e LEETCODE_SESSION="" --rm andythsu/gitsync`
+`docker run -it -e LEETCODE_SESSION="<session>" --rm andythsu/gitsync`
+
+## How to get LEETCODE_SESSION environment variable
+
+1. Log in to https://leetcode.com
+2. Open console by pressing `ctrl+shift+j` or right click and choose inspect
+3. Navigate to Application tab
+4. Select Cookies on the left panel
+5. Copy the value for LEETCODE_SESSION
+
+![](./assets/get_session_from_lc.png)
 
 ## Troubleshooting
 
