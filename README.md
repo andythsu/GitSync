@@ -4,6 +4,8 @@
 
 GitSync is a python script that uploads the most recent solution of all your Leetcode problems to Github. It is inspired [GitCode](https://github.com/andythsu/GitCode) because it is not realistic to sync all 2k questions from Leetcode to Github in a web extension.
 
+## System requirements
+everything is containerized so there's no need to worry about dependencies. All you need to have is Docker and you are all set.
 ## To run
 
 `docker run -it -e LEETCODE_SESSION="<session>" --rm andythsu/gitsync`
